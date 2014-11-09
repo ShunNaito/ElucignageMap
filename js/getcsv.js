@@ -9,7 +9,7 @@ function loadcsv(url) {
     var n;
     for (n = 1; n < rows.length; n++) {
     	var fields = rows[n].split(",");
-    	date = fields[1];
+    	date = parseFloat(fields[1]);
     	text = fields[2];
         data.push({'date': date, 'text': text});
     }

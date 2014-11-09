@@ -1,0 +1,24 @@
+#articlePane{
+	float:right;
+	width:25%;
+	height:79%;
+	overflow: auto;
+}
+
+
+#graphPane{
+	position: absolute;
+	bottom: 5px;
+	width:74%;
+	height:24%;
+}
+
+.article{
+	width: auto;
+	height: 25%;
+	overflow: auto;
+	margin-top: 0.1em;
+	background-color: #ffffff;
+	border: 1px #c0c0c0 solid;
+	color: #000000;
+}
