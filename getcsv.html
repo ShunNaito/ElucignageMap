@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title>CSVファイルから数値データを取り出す</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./getcsv.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	// Ebolaのcsvデータから日付と本文を取ってくる
+    var result = loadcsv('./Ebola.csv');
+
+    //　日付と本文を表示する
+	for(var i=0; i<=result.length-1; i++){
+		document.write(result[i].date);
+		document.write(result[i].text);
+	}
+</script>
+</body>
+</html>
