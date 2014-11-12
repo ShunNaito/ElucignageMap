@@ -39,40 +39,81 @@
 	<link rel="stylesheet" href="css/d3.slider.css" />
 </head>
 <body onLoad="displayText()">
-<script type="text/javascript">
-	// Ebolaのcsvデータから日付と本文を取ってくる
-    var result = loadcsv('./EbolaTest.csv');
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript">
 
-    function displayText() {
-	    //　新聞記事の本文を表示する
-		for(var i=0; i<=result.length-1; i++){
-			var $div = $('<div>')
-        		.attr({"id": result[i].date,
-        			"class": 'article'});
-	        $div.append(result[i].text+'<br>');
-	        $('#articlePane').append($div);
-	    }
-    }
-</script>
+		var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+		function displayText(){
+			// データを読み込む
+		    d3.csv("./Ebola.csv", function(error, data) {
+		        // データをフォーマット
+		        data.forEach(function(d) {
+		            d.date = parseDate(d.date);
+		        });
+
+			    //　新聞記事の本文を表示する
+			    d3.select("#articlePane").selectAll("li")
+			    	.data(data)
+     				.enter()
+     				.append("li")
+     				.attr("id",function(d) {
+ 						return d.date;
+     				})
+     				// .attr("class", "article")
+     				.text(function(d) { return d.text});
+				// for(var i=0; i<=data.length-1; i++){
+				// 	var $div = $('<div>')
+		  //       		.attr({"id": d[i].date,
+		  //       			"class": 'article'});
+			 //        $div.append(d[i].text+'<br>');
+			 //        $('#articlePane').append($div);
+			 //    }
+			});
+		}
+	</script>
 	<div id="articlePane">
 	</div>
 	<div id="test"></div>
 	<div id="graphPane">
-		<script src="http://d3js.org/d3.v3.min.js"></script>
 		<script src="js/d3.slider.js"></script>
 		<script>
+
 		// タイムスライダー
-		d3.select('#graphPane').call(d3.slider().axis(true).min(1008).max(1017).step(1).on("slide", function(evt, value) {
+		d3.csv("./Ebola.csv", function(error, data) {
+		        // データをフォーマット
+		        data.forEach(function(d) {
+		            d.date = parseDate(d.date);
+		        });
+		        console.log(data[0].date);
+
+		    var min = d3.min(data, function(d) { return d.date; }).getDate();
+		    // console.log(min);
+
+		    var max = d3.max(data, function(d) { return d.date; }).getDate();
+		    // console.log(max);
+
+			d3.select('#graphPane').call(d3.slider().axis(true).min(min).max(max).step(1).on("slide", function(evt, value) {
       			d3.select('#test').text(value);
       			//　タイムスライダーの値（時系列）に応じて記事をハイライト
-      			for(var i=0; i<=result.length-1; i++){
-					if(value == result[i].date){
-						document.getElementById(result[i].date).style.color = "red";
+      			// console.log(data.length);
+      			for(var i=0; i<=data.length-1; i++){
+					if(value == data[i].date.getDate()){
+						document.getElementById(data[i].date).style.color = "red";
 					}else{
-						document.getElementById(result[i].date).style.color = "black";
+						document.getElementById(data[i].date).style.color = "black";
 					}
 	    		}
+     //  			d3.select('span').style("color", function(d) {
+     //  				console.log(d.date.getDate());
+     //  				if(value == d.date.getDate()){
+					// 	return red;
+					// }else{
+					// 	return black;
+					// }
+	    // 		});
     		}));
+		});
 		</script>
 	</div>
 </body>
