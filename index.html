@@ -2,246 +2,25 @@
 <head>
 	<title>ElucignageMap</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="css/elucignageMap.css" type="text/css">
-	<style>
-
-    body {
-    	font: 10px sans-serif;
-    	font-family: Verdana,Arial,sans-serif;
-    }
-
-    .axis path,
-	.axis line {
-	  fill: none;
-	  stroke: #000;
-	  shape-rendering: crispEdges;
-	}
-
-	.x.axis path {
-	  display: none;
-	}
-
-	.line {
-	  fill: none;
-	  stroke: steelblue;
-	  stroke-width: 1.5px;
-	}
-
-
-    h2 {
-      font-size: 1.2em;
-      margin: 60px 0 5px 0;
-    }
-
-    .wrapper {
-      width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .wrapper > div {
-      margin: 35px 0;
-    }
-
-
-  </style>
+	<link rel="stylesheet" href="css/ElucignageMap.css" type="text/css">
+	<link rel="stylesheet" href="css/graph.css" />
 	<link rel="stylesheet" href="css/d3.slider.css" />
+	<link rel="stylesheet" href="css/slider.css" />
 </head>
 <body onLoad="displayText()">
-	<script src="http://d3js.org/d3.v3.js"></script>
-	<script src="http://d3js.org/topojson.v1.min.js"></script>
-	<script src="./datamaps.world.min.js"></script>
+	<script src="./js/d3.js"></script>
+	<script src="./js/topojson.js"></script>
+	<script src="./js/datamaps.world.min.js"></script>
 	<div id="zoom_map" style="float:left; width:70%; height:70%"></div>
-	<script>
-	var colors = d3.scale.category10();
-	var zoom = new Datamap({
-		element: document.getElementById("zoom_map"),
-		scope: 'world',
-		// Zoom in on Africa
-		setProjection: function(element) {
-		var projection = d3.geo.equirectangular()
-		  .center([23, -3])
-		  .rotate([4.4, 0])
-		  .scale(400)
-		  .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-		var path = d3.geo.path()
-		  .projection(projection);
-
-		return {path: path, projection: projection};
-	},
-	fills: {
-		defaultFill: "#ABDDA4",
-		gt50: colors(Math.random() * 20),
-		eq50: colors(Math.random() * 20),
-		lt25: colors(Math.random() * 10),
-		gt75: colors(Math.random() * 200),
-		lt50: colors(Math.random() * 20),
-		eq0: colors(Math.random() * 1),
-		pink: '#0fa0fa',
-		gt500: colors(Math.random() * 1)
-	},
-	data: {
-		'ZAF': { fillKey: 'gt50' },
-		'ZWE': { fillKey: 'lt25' },
-		'NGA': { fillKey: 'lt50' },
-		'MOZ': { fillKey: 'eq50' },
-		'MDG': { fillKey: 'eq50' },
-		'EGY': { fillKey: 'gt75' },
-		'TZA': { fillKey: 'gt75' },
-		'LBY': { fillKey: 'eq0' },
-		'DZA': { fillKey: 'gt500' },
-		'SSD': { fillKey: 'pink' },
-		'SOM': { fillKey: 'gt50' },
-		'GIB': { fillKey: 'eq50' },
-		'AGO': { fillKey: 'lt50' }
-	}
-});
-zoom.bubbles([
-	{name: 'Bubble 1', latitude: 21.32, longitude: -7.32, radius: 45, fillKey: 'gt500'},
-	{name: 'Bubble 2', latitude: 12.32, longitude: 27.32, radius: 25, fillKey: 'eq0'},
-	{name: 'Bubble 3', latitude: 0.32, longitude: 23.32, radius: 35, fillKey: 'lt25'},
-	{name: 'Bubble 4', latitude: -31.32, longitude: 23.32, radius: 55, fillKey: 'eq50'},
-	], {
-	popupTemplate: function(geo, data) {
-		return "<div class='hoverinfo'>Bubble for " + data.name + "</div>";
-	}
-});
-	</script>
-	<script type="text/javascript">
-
-		var parseDate = d3.time.format("%Y-%m-%d").parse;
-
-		function displayText(){
-			// データを読み込む
-		    d3.csv("./Ebola.csv", function(error, data) {
-		        // データをフォーマット
-		        data.forEach(function(d) {
-		            d.date = parseDate(d.date);
-		        });
-
-			    //　新聞記事の本文を表示する
-			    d3.select("#articlePane").selectAll("li")
-			    	.data(data)
-     				.enter()
-     				.append("li")
-     				.attr("id",function(d) {
- 						return d.date;
-     				})
-     				// .attr("class", "article")
-     				.text(function(d) { return d.text});
-				// for(var i=0; i<=data.length-1; i++){
-				// 	var $div = $('<div>')
-		  //       		.attr({"id": d[i].date,
-		  //       			"class": 'article'});
-			 //        $div.append(d[i].text+'<br>');
-			 //        $('#articlePane').append($div);
-			 //    }
-			});
-		}
-	</script>
+	<script src="./js/map.js"></script>
+	<script src="./js/article.js"></script>
 	<div id="articlePane"></div>
 	<div id="test"></div>
 	<div id="test2"></div>
 	<div id="graphPane">
-		<script>
-
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-// var parseDate2 = d3.time.format("%Y/%m/%d").parse;
-
-var x = d3.time.scale()
-    .range([0, width]);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
-var line = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.TheTotalNumberOfPatients); });
-
-var svg = d3.select("#test2").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("ebora.csv", function(error, data) {
-  data.forEach(function(d) {
-    d.date = parseDate(d.date);
-    d.close = +d.TheTotalNumberOfPatients;
-  });
-
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain(d3.extent(data, function(d) { return d.TheTotalNumberOfPatients; }));
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Price ($)");
-
-  svg.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
-});
-
-</script>
-		<script src="js/d3.slider.js"></script>
-		<script>
-
-		// タイムスライダー
-		d3.csv("./Ebola.csv", function(error, data) {
-		        // データをフォーマット
-		        data.forEach(function(d) {
-		            d.date = parseDate(d.date);
-		        });
-
-		    var min = d3.min(data, function(d) { return d.date; }).getDate();
-
-		    var max = d3.max(data, function(d) { return d.date; }).getDate();
-
-			d3.select('#graphPane').call(d3.slider().axis(true).min(min).max(max).step(1).on("slide", function(evt, value) {
-      			d3.select('#test').text(value);
-      			//　タイムスライダーの値（時系列）に応じて記事をハイライト
-      			// console.log(data.length);
-      			for(var i=0; i<=data.length-1; i++){
-					if(value == data[i].date.getDate()){
-						document.getElementById(data[i].date).style.color = "red";
-					}else{
-						document.getElementById(data[i].date).style.color = "black";
-					}
-	    		}
-     //  			d3.select('span').style("color", function(d) {
-     //  				console.log(d.date.getDate());
-     //  				if(value == d.date.getDate()){
-					// 	return red;
-					// }else{
-					// 	return black;
-					// }
-	    // 		});
-    		}));
-		});
-		</script>
+	<script src="./js/graph.js"></script>
+	<script src="./js/d3.slider.js"></script>
+	<script src="./js/timeslider.js"></script>
 	</div>
 </body>
 </html>
