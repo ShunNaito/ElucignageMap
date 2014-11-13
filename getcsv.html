@@ -3,13 +3,31 @@
 	<title>ElucignageMap</title>
 	<meta charset="utf-8">
 	<script src="js/jquery-1.6.2.js"></script>
-	<script type="text/javascript" src="./js/getcsv.js"></script>
 	<link rel="stylesheet" href="css/getcsv.css" type="text/css">
 	<style>
 
     body {
-      font-family: Verdana,Arial,sans-serif;
+    	font: 10px sans-serif;
+    	font-family: Verdana,Arial,sans-serif;
     }
+
+    .axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+	.x.axis path {
+	  display: none;
+	}
+
+	.line {
+	  fill: none;
+	  stroke: steelblue;
+	  stroke-width: 1.5px;
+	}
+
 
     h2 {
       font-size: 1.2em;
@@ -24,14 +42,6 @@
 
     .wrapper > div {
       margin: 35px 0;
-    }
-
-    #slider8 {
-      height: 250px;
-    }
-
-    #slider9 {
-      height: 250px;
     }
 
 
@@ -130,10 +140,73 @@ zoom.bubbles([
 			});
 		}
 	</script>
-	<div id="articlePane">
-	</div>
+	<div id="articlePane"></div>
 	<div id="test"></div>
+	<div id="test2"></div>
 	<div id="graphPane">
+		<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// var parseDate2 = d3.time.format("%Y/%m/%d").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.TheTotalNumberOfPatients); });
+
+var svg = d3.select("#test2").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("ebora.csv", function(error, data) {
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+    d.close = +d.TheTotalNumberOfPatients;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.TheTotalNumberOfPatients; }));
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Price ($)");
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+});
+
+</script>
 		<script src="js/d3.slider.js"></script>
 		<script>
 
@@ -143,13 +216,10 @@ zoom.bubbles([
 		        data.forEach(function(d) {
 		            d.date = parseDate(d.date);
 		        });
-		        console.log(data[0].date);
 
 		    var min = d3.min(data, function(d) { return d.date; }).getDate();
-		    // console.log(min);
 
 		    var max = d3.max(data, function(d) { return d.date; }).getDate();
-		    // console.log(max);
 
 			d3.select('#graphPane').call(d3.slider().axis(true).min(min).max(max).step(1).on("slide", function(evt, value) {
       			d3.select('#test').text(value);
