@@ -36,7 +36,7 @@ d3.csv("ebora.csv", function(error, data) {
   // データをフォーマット
   data.forEach(function(d) {
     d.date = parseDate(d.date);
-    d.close = +d.TheTotalNumberOfPatients;
+    d.TheTotalNumberOfPatients = +d.TheTotalNumberOfPatients;
   });
 
   // データを入力ドメインとして設定
