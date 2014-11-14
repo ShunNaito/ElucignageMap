@@ -41,3 +41,9 @@ var zoom = new Datamap({
 		'AGO': { fillKey: 'lt50' }
 	}
 });
+
+$(function(){
+     $(".datamaps-subunit.AGO").click(function(){
+         drawGraph(Guinea);
+    });
+});
