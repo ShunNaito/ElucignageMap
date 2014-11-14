@@ -1,8 +1,6 @@
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-// var parseDate2 = d3.time.format("%Y/%m/%d").parse;
+    width = window.innerWidth/10*7 - margin.left - margin.right,
+    height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
 var x = d3.time.scale()
     .range([0, width]);
@@ -22,7 +20,7 @@ var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.TheTotalNumberOfPatients); });
 
-var svg = d3.select("#test2").append("svg")
+var svg = d3.select("#graph").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -50,7 +48,7 @@ d3.csv("ebora.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Price ($)");
+      .text("Casualties (人)");
 
   svg.append("path")
       .datum(data)
