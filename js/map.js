@@ -44,6 +44,6 @@ var zoom = new Datamap({
 
 $(function(){
      $(".datamaps-subunit.AGO").click(function(){
-         drawGraph(Guinea);
+         console.log("hello");
     });
 });
