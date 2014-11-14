@@ -1,9 +1,3 @@
-/*#zoom_map{
-	float:left;
-	width:70%;
-	height:50%;
-}*/
-
 #articlePane{
 	float:right;
 	width:25%;
@@ -26,4 +20,10 @@
 	background-color: #ffffff;
 	border: 1px #c0c0c0 solid;
 	color: #000000;
+}
+
+#zoom_map{
+	float:left;
+	width:70%;
+	height:70%;
 }
