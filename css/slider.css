@@ -1,10 +1,7 @@
-body {
+#slider{
   font-family: Verdana,Arial,sans-serif;
-}
-
-h2 {
-  font-size: 1.2em;
-  margin: 60px 0 5px 0;
+  width:70%;
+  margin-left: 3%;
 }
 
 .wrapper {
