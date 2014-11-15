@@ -1,5 +1,5 @@
 // タイムスライダー
-d3.csv("./EbolaArticle.csv", function(error, data) {
+d3.csv("data/EbolaArticle.csv", function(error, data) {
     // 時系列情報をパース
     data.forEach(function(d) {
         d.date = parseDate(d.date);
