@@ -8,14 +8,14 @@ function displayText(){
             d.date = parseDate(d.date);
         });
 
-		//　新聞記事の本文を表示する
-		d3.select("#articlePane").selectAll("li")
-			.data(data)
-			.enter()
-			.append("li")
-			.attr("id",function(d) {
-				return d.date;
-			})
-			.text(function(d) { return d.text});
-	});
+	//　新聞記事の本文を表示する
+	d3.select("#articlePane").selectAll("li")
+	    .data(data)
+	    .enter()
+	    .append("li")
+	    .attr("id",function(d) {
+		return d.date;
+	    })
+	    .text(function(d) { return d.text});
+    });
 }
