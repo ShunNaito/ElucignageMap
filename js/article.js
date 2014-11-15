@@ -16,6 +16,6 @@ function displayText(){
 	    .attr("id",function(d) {
 		return d.date;
 	    })
-	    .text(function(d) { return d.text});
+	    .text(function(d) { return d.text; });
     });
 }
