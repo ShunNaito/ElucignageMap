@@ -39,7 +39,7 @@ function drawGraph(statisticsName){
   $('.focus').empty();
 
   // データを読み込む
-  d3.csv("Ebola"+statisticsName+".csv", function(error, data) {
+  d3.csv("data/Ebola"+statisticsName+".csv", function(error, data) {
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
