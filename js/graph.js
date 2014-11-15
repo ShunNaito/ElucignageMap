@@ -43,7 +43,7 @@ function drawGraph(statisticsName){
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
-      d.close = +d.close;
+      d.close =+ d.close;
     });
 
     // データを入力ドメインとして設定
