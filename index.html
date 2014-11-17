@@ -14,16 +14,20 @@
 	<script src="lib/datamaps.world.min.js"></script>
 </head>
 <body onLoad="displayText()">
-	<div id="zoom_map"></div>
-	<script src="./js/map.js"></script>
-	<script src="./js/article.js"></script>
+	<div id="zoom_map">
+		<script src="./js/map.js"></script>
+	</div>
 
-	<div id="articlePane"></div>
-
-	<div id="graph"></div>
-
-	<div id="slider"></div>
-	<script src="./js/graph.js"></script>
-	<script src="./js/timeslider.js"></script>
+	<div id="articlePane">
+		<script src="./js/article.js"></script>
+	</div>
+	<div id="graphPane">
+		<div id="graph">
+			<script src="./js/graph.js"></script>
+		</div>
+		<div id="slider">
+			<script src="./js/timeslider.js"></script>
+		</div>
+	</div>
 </body>
 </html>
