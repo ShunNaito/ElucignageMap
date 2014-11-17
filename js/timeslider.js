@@ -1,5 +1,12 @@
 // タイムスライダー
-d3.csv("data/EbolaGuinea.csv", function(error, data) {
+d3.csv("data/EbolaCaces.csv", function(error, data) {
+    var countryNameArray = Object.keys(data[0]);
+    for(var i=0; i<=data.length-1; i++){
+        for(var j=1; j<=countryNameArray.length; j++){
+            console.log(data[i][countryNameArray[j]]);
+        }
+    }
+
     // 時系列情報をパース
     data.forEach(function(d) {
         d.date = parseDate(d.date);
