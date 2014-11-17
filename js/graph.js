@@ -1,7 +1,7 @@
 // グラフの表示領域
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = window.innerWidth/10*7 - margin.left - margin.right,
-    height = window.innerHeight/10*3 - margin.top - margin.bottom;
+    height = window.innerHeight/10*2.5 - margin.top - margin.bottom;
 
 // スケールと出力レンジの定義
 var x = d3.time.scale()
