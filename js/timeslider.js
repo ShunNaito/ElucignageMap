@@ -2,8 +2,8 @@
 d3.csv("data/EbolaCaces.csv", function(error, data) {
     var countryNameArray = Object.keys(data[0]);
     for(var i=0; i<=data.length-1; i++){
-        for(var j=1; j<=countryNameArray.length; j++){
-            // console.log(data[i][countryNameArray[j]]);
+        for(var j=1; j<=countryNameArray.length-1; j++){
+            console.log(data[i][countryNameArray[j]]);
         }
     }
 
@@ -35,10 +35,9 @@ d3.csv("data/EbolaCaces.csv", function(error, data) {
                 var color1 = 171 + Math.round(scale1(data[i].GIN));
                 var color2 = 221 - Math.round(scale2(data[i].GIN));
                 var color3 = 164 - Math.round(scale3(data[i].GIN));
-                $('.datamaps-subunit.GIN').css('fill','rgb('+color1+', '+color2+', '+color3+')');
-                console.log(color1);
-                console.log(color2);
-                console.log(color3);
+                for(var j=1; j<=countryNameArray.length-1; j++){
+                    $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color1+', '+color2+', '+color3+')');
+                }
             }
         }
 
