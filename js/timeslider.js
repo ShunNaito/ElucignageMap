@@ -32,9 +32,7 @@ d3.csv("data/EbolaCaces.csv", function(error, data) {
     //データセットの最大値取得
     // var dataMax = d3.max(data, function(d) { return d.GIN; });
 
-    var scale1 = d3.scale.linear().domain([dataMin, dataMax]).range([0, 84]);
-    var scale2 = d3.scale.linear().domain([dataMin, dataMax]).range([0, 221]);
-    var scale3 = d3.scale.linear().domain([dataMin, dataMax]).range([0, 164]);
+    var scale = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
 
     //　タイムスライダーのインタラクション
     d3.select('#slider').call(d3.slider().axis(true).min(min).max(max).step(1).on("slide", function(evt, value) {
@@ -43,10 +41,8 @@ d3.csv("data/EbolaCaces.csv", function(error, data) {
         for(var i=0; i<=data.length-1; i++){
             if(value == data[i].date.getDate()){
                 for(var j=1; j<=countryNameArray.length-1; j++){
-                    var color1 = 171 + Math.round(scale1(data[i][countryNameArray[j]]));
-                    var color2 = 221 - Math.round(scale2(data[i][countryNameArray[j]]));
-                    var color3 = 164 - Math.round(scale3(data[i][countryNameArray[j]]));
-                    $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color1+', '+color2+', '+color3+')');
+                    var color = Math.round(scale(data[i][countryNameArray[j]]));
+                    $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
                 }
             }
         }
