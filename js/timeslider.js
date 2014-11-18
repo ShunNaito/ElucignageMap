@@ -1,9 +1,19 @@
 // タイムスライダー
 d3.csv("data/EbolaCaces.csv", function(error, data) {
     var countryNameArray = Object.keys(data[0]);
+    var dataMin;
+    var dataMax;
+    var tmp;
     for(var i=0; i<=data.length-1; i++){
         for(var j=1; j<=countryNameArray.length-1; j++){
-            console.log(data[i][countryNameArray[j]]);
+            if(i==0 && j==1){
+                dataMin = data[i][countryNameArray[j]];
+                dataMax = data[i][countryNameArray[j]];
+            }else if(data[i][countryNameArray[j]] < dataMin){
+                dataMin = data[i][countryNameArray[j]];
+            }else if(data[i][countryNameArray[j]] > dataMax){
+                dataMax = data[i][countryNameArray[j]];
+            }
         }
     }
 
@@ -18,9 +28,9 @@ d3.csv("data/EbolaCaces.csv", function(error, data) {
     var max = d3.max(data, function(d) { return d.date; }).getDate();
 
     //データセットの最小値取得
-    var dataMin = d3.min(data, function(d) { return d.GIN; });
+    // var dataMin = d3.min(data, function(d) { return d.GIN; });
     //データセットの最大値取得
-    var dataMax = d3.max(data, function(d) { return d.GIN; });
+    // var dataMax = d3.max(data, function(d) { return d.GIN; });
 
     var scale1 = d3.scale.linear().domain([dataMin, dataMax]).range([0, 84]);
     var scale2 = d3.scale.linear().domain([dataMin, dataMax]).range([0, 221]);
