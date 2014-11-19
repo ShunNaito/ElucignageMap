@@ -13,8 +13,9 @@ function displayText(){
 	    .data(data)
 	    .enter()
 	    .append("li")
+	    .append("p")
 	    .attr("id",function(d) {
-		return d.date;
+			return d.date;
 	    })
 	    .text(function(d) { return d.text; });
     });

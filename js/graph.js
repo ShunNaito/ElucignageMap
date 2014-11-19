@@ -1,7 +1,12 @@
 // グラフの表示領域
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = window.innerWidth/10*7 - margin.left - margin.right,
-    height = window.innerHeight/10*2.5 - margin.top - margin.bottom;
+    height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
+
+// var parseDate = d3.time.format("%Y/%m/%d").parse,
+    bisectDate = d3.bisector(function(d) { return d.date; }).left,
+    formatValue = d3.format(",.2f"),
+    formatCurrency = function(d) { return "$" + formatValue(d); };
 
 // スケールと出力レンジの定義
 var x = d3.time.scale()
@@ -27,24 +32,42 @@ var line = d3.svg.line()
 // svgの定義
 var svg = d3.select("#graph").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
-
-var focus = svg.append("g")
-    .attr("class", "focus")
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 drawGraph("Total");
 
 function drawGraph(statisticsName){
-  $('.focus').empty();
+  $('#graph g').empty();
 
   // データを読み込む
-  d3.csv("data/Ebola"+statisticsName+".csv", function(error, data) {
+  d3.csv("data/"+statisticsName+".csv", function(error, data) {
+    var countryNameArray = Object.keys(data[0]);
+    console.log(countryNameArray);
+    var dataMin;
+    var dataMax;
+    for(var i=0; i<=data.length-1; i++){
+        for(var j=2; j<=countryNameArray.length-1; j++){
+            if(i==0 && j==2){
+                dataMin = data[i][countryNameArray[j]];
+                dataMax = data[i][countryNameArray[j]];
+            }else if(data[i][countryNameArray[j]] < dataMin){
+                dataMin = data[i][countryNameArray[j]];
+            }else if(data[i][countryNameArray[j]] > dataMax){
+                dataMax = data[i][countryNameArray[j]];
+            }
+        }
+    }
+
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
       d.close =+ d.close;
     });
+
+    var scale = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
 
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
@@ -52,13 +75,13 @@ function drawGraph(statisticsName){
     y.domain(d3.extent(data, function(d) { return d.close; }));
 
     // x軸をsvgに表示
-    focus.append("g")
+    svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
 
     // y軸をsvgに表示
-    focus.append("g")
+    svg.append("g")
         .attr("class", "y axis")
         .call(yAxis)
         .append("text")
@@ -69,9 +92,57 @@ function drawGraph(statisticsName){
         .text("Casualties (人)");
 
     // path要素をsvgに表示し、折れ線グラフを設定
-    focus.append("path")
+    svg.append("path")
         .datum(data)
         .attr("class", "line")
         .attr("d", line);
+
+    var focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
+        focus.append("circle")
+      .attr("r", 4.5);
+
+      focus.append("text")
+          .attr("x", 9)
+          .attr("dy", ".35em");
+
+      focus.append("line")
+          .attr("x1", 0).attr("x2", 0) // vertical line so same value on each
+          .attr("y1", 0).attr("y2", height); // top to bottom
+
+      svg.append("rect")
+          .attr("class", "overlay")
+          .attr("width", width)
+          .attr("height", height)
+          .on("mouseover", function() { focus.style("display", null); })
+          // .on("mouseout", function() { focus.style("display", "none"); })
+          .on("mousemove", mousemove);
+
+      function mousemove() {
+        var x0 = x.invert(d3.mouse(this)[0]),
+            i = bisectDate(data, x0, 1),
+            d0 = data[i - 1],
+            d1 = data[i],
+            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+        // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+          focus.attr("transform", "translate(" + x(d.date) + ",0)");
+        focus.select("text").text(d.date);
+        // console.log($("#"+d.date));
+        for(var j=2; j<=countryNameArray.length-1; j++){
+              var color = Math.round(scale(d[countryNameArray[j]]));
+              console.log(color);
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
+          }
+        if(document.getElementById(d.date) != null){
+          d3.selectAll("li").selectAll("p").style("color", "black");
+          document.getElementById(d.date).style.color = "red";
+            // console.log("OK");
+        }else{
+            d3.selectAll("li").selectAll("p").style("color", "black");
+            // console.log("NG");
+        }
+      }
   });
 }
