@@ -44,11 +44,30 @@ function drawGraph(statisticsName){
 
   // データを読み込む
   d3.csv("data/"+statisticsName+".csv", function(error, data) {
+    var countryNameArray = Object.keys(data[0]);
+    console.log(countryNameArray);
+    var dataMin;
+    var dataMax;
+    for(var i=0; i<=data.length-1; i++){
+        for(var j=2; j<=countryNameArray.length-1; j++){
+            if(i==0 && j==2){
+                dataMin = data[i][countryNameArray[j]];
+                dataMax = data[i][countryNameArray[j]];
+            }else if(data[i][countryNameArray[j]] < dataMin){
+                dataMin = data[i][countryNameArray[j]];
+            }else if(data[i][countryNameArray[j]] > dataMax){
+                dataMax = data[i][countryNameArray[j]];
+            }
+        }
+    }
+
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
       d.close =+ d.close;
     });
+
+    var scale = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
 
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
@@ -110,14 +129,19 @@ function drawGraph(statisticsName){
         // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
         focus.select("text").text(d.date);
-        console.log($("#"+d.date));
+        // console.log($("#"+d.date));
+        for(var j=2; j<=countryNameArray.length-1; j++){
+              var color = Math.round(scale(d[countryNameArray[j]]));
+              console.log(color);
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
+          }
         if(document.getElementById(d.date) != null){
           d3.selectAll("li").selectAll("p").style("color", "black");
           document.getElementById(d.date).style.color = "red";
-            console.log("OK");
+            // console.log("OK");
         }else{
             d3.selectAll("li").selectAll("p").style("color", "black");
-            console.log("NG");
+            // console.log("NG");
         }
       }
   });
