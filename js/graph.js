@@ -104,7 +104,15 @@ function drawGraph(statisticsName){
             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
         focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
         focus.select("text").text(d.date);
-        console.log(d.date);
+        console.log($("#"+d.date));
+        if(document.getElementById(d.date) != null){
+          d3.selectAll("li").selectAll("p").style("color", "black");
+          document.getElementById(d.date).style.color = "red";
+            console.log("OK");
+        }else{
+            d3.selectAll("li").selectAll("p").style("color", "black");
+            console.log("NG");
+        }
       }
   });
 }
