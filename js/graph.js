@@ -1,9 +1,10 @@
 // グラフの表示領域
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = window.innerWidth/10*7 - margin.left - margin.right,
-    height = window.innerHeight/10*3 - margin.top - margin.bottom;
+    height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
 
-var bisectDate = d3.bisector(function(d) { return d.date; }).left,
+// var parseDate = d3.time.format("%Y/%m/%d").parse,
+    bisectDate = d3.bisector(function(d) { return d.date; }).left,
     formatValue = d3.format(",.2f"),
     formatCurrency = function(d) { return "$" + formatValue(d); };
 
@@ -42,7 +43,7 @@ function drawGraph(statisticsName){
   $('#graph g').empty();
 
   // データを読み込む
-  d3.csv("data/Ebola"+statisticsName+".csv", function(error, data) {
+  d3.csv("data/"+statisticsName+".csv", function(error, data) {
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
@@ -109,14 +110,14 @@ function drawGraph(statisticsName){
         // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
         focus.select("text").text(d.date);
-        // console.log($("#"+d.date));
+        console.log($("#"+d.date));
         if(document.getElementById(d.date) != null){
           d3.selectAll("li").selectAll("p").style("color", "black");
           document.getElementById(d.date).style.color = "red";
-            // console.log("OK");
+            console.log("OK");
         }else{
             d3.selectAll("li").selectAll("p").style("color", "black");
-            // console.log("NG");
+            console.log("NG");
         }
       }
   });
