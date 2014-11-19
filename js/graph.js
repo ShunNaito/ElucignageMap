@@ -1,7 +1,7 @@
 // グラフの表示領域
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = window.innerWidth/10*7 - margin.left - margin.right,
-    height = window.innerHeight/10*2.5 - margin.top - margin.bottom;
+    height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
 var bisectDate = d3.bisector(function(d) { return d.date; }).left,
     formatValue = d3.format(",.2f"),
@@ -88,12 +88,16 @@ function drawGraph(statisticsName){
           .attr("x", 9)
           .attr("dy", ".35em");
 
+      focus.append("line")
+          .attr("x1", 0).attr("x2", 0) // vertical line so same value on each
+          .attr("y1", 0).attr("y2", height); // top to bottom
+
       svg.append("rect")
           .attr("class", "overlay")
           .attr("width", width)
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
-          .on("mouseout", function() { focus.style("display", "none"); })
+          // .on("mouseout", function() { focus.style("display", "none"); })
           .on("mousemove", mousemove);
 
       function mousemove() {
@@ -102,16 +106,17 @@ function drawGraph(statisticsName){
             d0 = data[i - 1],
             d1 = data[i],
             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+        // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+          focus.attr("transform", "translate(" + x(d.date) + ",0)");
         focus.select("text").text(d.date);
-        console.log($("#"+d.date));
+        // console.log($("#"+d.date));
         if(document.getElementById(d.date) != null){
           d3.selectAll("li").selectAll("p").style("color", "black");
           document.getElementById(d.date).style.color = "red";
-            console.log("OK");
+            // console.log("OK");
         }else{
             d3.selectAll("li").selectAll("p").style("color", "black");
-            console.log("NG");
+            // console.log("NG");
         }
       }
   });

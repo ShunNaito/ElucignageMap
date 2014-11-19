@@ -28,3 +28,8 @@
   fill: none;
   stroke: steelblue;
 }
+
+.focus line {
+  fill: none;
+  stroke: steelblue;
+}
