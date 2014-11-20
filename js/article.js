@@ -17,6 +17,17 @@ function displayText(){
 	    .attr("id",function(d) {
 			return d.date;
 	    })
+	    .on("click",function(d){
+	    	$('.focus').attr("transform", "translate("+x(d.date)+",0)");
+	    	if(document.getElementById(d.date) != null){
+          d3.selectAll("li").selectAll("p").style("color", "black");
+          document.getElementById(d.date).style.color = "red";
+            // console.log("OK");
+        }else{
+            d3.selectAll("li").selectAll("p").style("color", "black");
+            // console.log("NG");
+        }
+	    })
 	    .text(function(d) { return d.text; });
     });
 }
