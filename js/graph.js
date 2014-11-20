@@ -97,6 +97,28 @@ function drawGraph(statisticsName){
         .attr("class", "line")
         .attr("d", line);
 
+    svg.append("g")
+       .attr("class", "icon")
+       .attr("clip-path", "url(#clip)")
+       .selectAll('.icon')
+       .data(data)
+       .enter()
+       .append('image')
+       .attr("class", "arrow")
+       .attr({
+        'xlink:href': function (d) {
+              return 'images/other.png';
+         },
+         'width' : 10,
+         'height': 10,
+       })
+       .attr("x", function(d) {
+              return x(d.date)-5;
+       })
+       .attr("y", function(d) {
+              return y(d.close)-5;
+       });
+
     var focus = svg.append("g")
         .attr("class", "focus")
         .style("display", "none");
