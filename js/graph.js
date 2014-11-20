@@ -132,7 +132,7 @@ function drawGraph(statisticsName){
         // console.log($("#"+d.date));
         for(var j=2; j<=countryNameArray.length-1; j++){
               var color = Math.round(scale(d[countryNameArray[j]]));
-              console.log(color);
+              // console.log(color);
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
           }
         if(document.getElementById(d.date) != null){
