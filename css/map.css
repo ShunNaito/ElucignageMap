@@ -1,0 +1,13 @@
+#zoom_map{
+	float:left;
+	width:49%;
+	height:100%;
+	padding-right: 1px;
+	border-right: 1px solid black;
+}
+
+#map_election{
+	float:right;
+	width:49%;
+	height:100%;
+}

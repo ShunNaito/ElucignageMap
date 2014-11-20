@@ -2,7 +2,8 @@
 <head>
 	<title>ElucignageMap</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="css/ElucignageMap.css" type="text/css">
+	<link rel="stylesheet" href="css/layout.css" />
+	<link rel="stylesheet" href="css/map.css" />
 	<link rel="stylesheet" href="css/graph.css" />
 	<link rel="stylesheet" href="css/d3.slider.css" />
 	<link rel="stylesheet" href="css/slider.css" />
@@ -11,11 +12,17 @@
 	<script src="lib/d3.js"></script>
 	<script src="lib/d3.slider.js"></script>
 	<script src="lib/topojson.js"></script>
-	<script src="lib/datamaps.world.min.js"></script>
 </head>
 <body onLoad="displayText()">
-	<div id="zoom_map">
-		<script src="./js/map.js"></script>
+	<div id="mapPane">
+		<div id="zoom_map">
+			<script src="lib/datamaps.world.min.js"></script>
+			<script src="./js/africaMap.js"></script>
+		</div>
+		<div id="map_election">
+			<script src="lib/datamaps.usa.min.js"></script>
+			<script src="./js/usaMap.js"></script>
+		</div>
 	</div>
 
 	<div id="articlePane">
