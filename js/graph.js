@@ -134,16 +134,21 @@ function drawGraph(statisticsName){
           .attr("x1", 0).attr("x2", 0) // vertical line so same value on each
           .attr("y1", 0).attr("y2", height); // top to bottom
 
+      var dragged = false;
+
       svg.append("rect")
           .attr("class", "overlay")
           .attr("width", width)
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
           // .on("mouseout", function() { focus.style("display", "none"); })
+	  .on("mousedown", function() { dragged = true; })
+	  .on("mouseup", function() { dragged = false; })
           .on("mousemove", mousemove);
 
       function mousemove() {
-	  console.log(d3.mouse(this));
+	  if (!dragged) return;
+
           var x0 = x.invert(d3.mouse(this)[0]),
               i = bisectDate(data, x0, 1),
               d0 = data[i - 1],
