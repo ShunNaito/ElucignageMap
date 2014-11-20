@@ -143,28 +143,29 @@ function drawGraph(statisticsName){
           .on("mousemove", mousemove);
 
       function mousemove() {
-        var x0 = x.invert(d3.mouse(this)[0]),
-            i = bisectDate(data, x0, 1),
-            d0 = data[i - 1],
-            d1 = data[i],
-            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+	  console.log(d3.mouse(this));
+          var x0 = x.invert(d3.mouse(this)[0]),
+              i = bisectDate(data, x0, 1),
+              d0 = data[i - 1],
+              d1 = data[i],
+              d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+          // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
-        focus.select("text").text(d.date);
-        // console.log($("#"+d.date));
-        for(var j=2; j<=countryNameArray.length-1; j++){
+          focus.select("text").text(d.date);
+          // console.log($("#"+d.date));
+          for(var j=2; j<=countryNameArray.length-1; j++){
               var color = Math.round(scale(d[countryNameArray[j]]));
               // console.log(color);
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
           }
-        if($('.'+Date.parse(d.date)) != null){
-          d3.selectAll("li").selectAll("p").style("color", "black");
-          $('.'+Date.parse(d.date)).css('color','red');
-            // console.log("OK");
-        }else{
-            d3.selectAll("li").selectAll("p").style("color", "black");
-            // console.log("NG");
-        }
+          if($('.'+Date.parse(d.date)) != null){
+              d3.selectAll("li").selectAll("p").style("color", "black");
+              $('.'+Date.parse(d.date)).css('color','red');
+              // console.log("OK");
+          }else{
+              d3.selectAll("li").selectAll("p").style("color", "black");
+              // console.log("NG");
+          }
       }
   });
 }
