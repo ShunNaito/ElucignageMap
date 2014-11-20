@@ -14,14 +14,14 @@ function displayText(){
 	    .enter()
 	    .append("li")
 	    .append("p")
-	    .attr("id",function(d) {
-			return d.date;
+	    .attr("class",function(d) {
+			return Date.parse(d.date);
 	    })
 	    .on("click",function(d){
 	    	$('.focus').attr("transform", "translate("+x(d.date)+",0)");
-	    	if(document.getElementById(d.date) != null){
+	    	if($('.'+Date.parse(d.date)) != null){
           d3.selectAll("li").selectAll("p").style("color", "black");
-          document.getElementById(d.date).style.color = "red";
+          $('.'+Date.parse(d.date)).css('color','red');
             // console.log("OK");
         }else{
             d3.selectAll("li").selectAll("p").style("color", "black");
