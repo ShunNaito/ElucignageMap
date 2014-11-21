@@ -45,6 +45,16 @@ function drawGraph(statisticsName){
   // データを読み込む
   d3.csv("data/"+statisticsName+".csv", function(error, data) {
     var countryNameArray = Object.keys(data[0]);
+
+    // データをフォーマット
+    data.forEach(function(d) {
+      d.date = parseDate(d.date);
+      // d.close =+ d.close;
+      for(var i=1; i<=countryNameArray.length-1; i++){
+        d[countryNameArray[i]] =+ d[countryNameArray[i]];
+      }
+    });
+
     var dataMin;
     var dataMax;
     for(var i=0; i<=data.length-1; i++){
@@ -59,12 +69,6 @@ function drawGraph(statisticsName){
             }
         }
     }
-
-    // データをフォーマット
-    data.forEach(function(d) {
-      d.date = parseDate(d.date);
-      d.close =+ d.close;
-    });
 
     data.sort(function(a, b) {
       return a.date - b.date;
