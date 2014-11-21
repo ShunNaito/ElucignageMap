@@ -1,23 +1,30 @@
-#articlePane{
-	margin-left: 0;
-	padding-left: 1%;
-	float:right;
-	width:28%;
+#leftPanel{
+	float:left;
+	width:69%;
 	height:100%;
-	overflow: auto;
-	border-left: 1px solid black;
+	border-right: 1px solid black;
 }
 
-#graphPane{
-	margin-right: 0;
-	float:left;
-	width:70%;
-	height:35%;
-	border-top: 1px solid black;
+#rightPanel{
+	float:right;
+	width:30%;
+	height:100%;
 }
 
 #mapPane{
-	float:left;
-	width:70%;
-	height:65%;
+	width: 100%;
+	height:69%;
+	border-bottom: 1px solid black;
+}
+
+#graphPane{
+	width:100%;
+	height:30%;
+}
+
+#articlePane{
+	margin-left: 0;
+	padding-left: 1%;
+	height:100%;
+	overflow: auto;
 }

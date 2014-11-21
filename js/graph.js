@@ -1,7 +1,7 @@
 // グラフの表示領域
 var margin = {top: 20, right: 20, bottom: 30, left: 50};
-var width = window.innerWidth/10*7 - margin.left - margin.right;
-var height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
+var width = window.innerWidth/10*6.8 - margin.left - margin.right;
+var height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
 // var parseDate = d3.time.format("%Y/%m/%d").parse,
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
@@ -45,7 +45,16 @@ function drawGraph(statisticsName){
   // データを読み込む
   d3.csv("data/"+statisticsName+".csv", function(error, data) {
     var countryNameArray = Object.keys(data[0]);
-    console.log(countryNameArray);
+
+    // データをフォーマット
+    data.forEach(function(d) {
+      d.date = parseDate(d.date);
+      // d.close =+ d.close;
+      for(var i=1; i<=countryNameArray.length-1; i++){
+        d[countryNameArray[i]] =+ d[countryNameArray[i]];
+      }
+    });
+
     var dataMin;
     var dataMax;
     for(var i=0; i<=data.length-1; i++){
@@ -61,10 +70,8 @@ function drawGraph(statisticsName){
         }
     }
 
-    // データをフォーマット
-    data.forEach(function(d) {
-      d.date = parseDate(d.date);
-      d.close =+ d.close;
+    data.sort(function(a, b) {
+      return a.date - b.date;
     });
 
     var scale = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
@@ -142,12 +149,12 @@ function drawGraph(statisticsName){
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
           // .on("mouseout", function() { focus.style("display", "none"); })
-	  .on("mousedown", function() { dragged = true; })
-	  .on("mouseup", function() { dragged = false; })
+      	  .on("mousedown", function() { dragged = true; })
+      	  .on("mouseup", function() { dragged = false; })
           .on("mousemove", mousemove);
 
       function mousemove() {
-	  if (!dragged) return;
+        if (!dragged) return;
 
           var x0 = x.invert(d3.mouse(this)[0]),
               i = bisectDate(data, x0, 1),
