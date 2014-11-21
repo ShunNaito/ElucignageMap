@@ -1,15 +1,15 @@
 #zoom_map{
     position: relative;
-	float:left;
-	width:49%;
-	height:100%;
-	padding-right: 1px;
-	border-right: 1px solid black;
+    float:left;
+    width:49%;
+    height:100%;
+    padding-right: 1px;
+    border-right: 1px solid black;
 }
 
 #map_election{
     position: relative;
-	float:right;
-	width:49%;
-	height:100%;
+    float:right;
+    width:49%;
+    height:100%;
 }
