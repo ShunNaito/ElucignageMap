@@ -1,12 +1,12 @@
 // グラフの表示領域
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = window.innerWidth/10*7 - margin.left - margin.right,
-    height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
+var margin = {top: 20, right: 20, bottom: 30, left: 50};
+var width = window.innerWidth/10*7 - margin.left - margin.right;
+var height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
 
 // var parseDate = d3.time.format("%Y/%m/%d").parse,
-    bisectDate = d3.bisector(function(d) { return d.date; }).left,
-    formatValue = d3.format(",.2f"),
-    formatCurrency = function(d) { return "$" + formatValue(d); };
+var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+var formatValue = d3.format(",.2f");
+var formatCurrency = function(d) { return "$" + formatValue(d); };
 
 // スケールと出力レンジの定義
 var x = d3.time.scale()
@@ -110,7 +110,7 @@ function drawGraph(statisticsName){
               return 'images/other.png';
          },
          'width' : 10,
-         'height': 10,
+         'height': 10
        })
        .attr("x", function(d) {
               return x(d.date)-5;
