@@ -69,6 +69,10 @@ function drawGraph(statisticsName){
       d.close =+ d.close;
     });
 
+    data.sort(function(a, b) {
+      return a.date - b.date;
+    });
+
     var scale = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
 
     // データを入力ドメインとして設定
