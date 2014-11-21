@@ -144,12 +144,12 @@ function drawGraph(statisticsName){
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
           // .on("mouseout", function() { focus.style("display", "none"); })
-	  .on("mousedown", function() { dragged = true; })
-	  .on("mouseup", function() { dragged = false; })
+      	  .on("mousedown", function() { dragged = true; })
+      	  .on("mouseup", function() { dragged = false; })
           .on("mousemove", mousemove);
 
       function mousemove() {
-	  if (!dragged) return;
+        if (!dragged) return;
 
           var x0 = x.invert(d3.mouse(this)[0]),
               i = bisectDate(data, x0, 1),
