@@ -1,9 +1,7 @@
 // グラフの表示領域
 var margin = {top: 20, right: 20, bottom: 30, left: 50};
 var width = window.innerWidth/10*6.8 - margin.left - margin.right;
-console.log(window.innerWidth);
 var height = window.innerHeight/10*3 - margin.top - margin.bottom;
-console.log(window.innerHeight);
 
 // var parseDate = d3.time.format("%Y/%m/%d").parse,
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
@@ -47,7 +45,6 @@ function drawGraph(statisticsName){
   // データを読み込む
   d3.csv("data/"+statisticsName+".csv", function(error, data) {
     var countryNameArray = Object.keys(data[0]);
-    console.log(countryNameArray);
     var dataMin;
     var dataMax;
     for(var i=0; i<=data.length-1; i++){
