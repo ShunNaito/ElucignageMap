@@ -1,12 +1,12 @@
 // グラフの表示領域
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = window.innerWidth/10*7 - margin.left - margin.right,
-    height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
+var margin = {top: 20, right: 20, bottom: 30, left: 50};
+var width = window.innerWidth/10*7 - margin.left - margin.right;
+var height = window.innerHeight/10*3.5 - margin.top - margin.bottom;
 
 // var parseDate = d3.time.format("%Y/%m/%d").parse,
-    bisectDate = d3.bisector(function(d) { return d.date; }).left,
-    formatValue = d3.format(",.2f"),
-    formatCurrency = function(d) { return "$" + formatValue(d); };
+var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+var formatValue = d3.format(",.2f");
+var formatCurrency = function(d) { return "$" + formatValue(d); };
 
 // スケールと出力レンジの定義
 var x = d3.time.scale()
@@ -110,7 +110,7 @@ function drawGraph(statisticsName){
               return 'images/other.png';
          },
          'width' : 10,
-         'height': 10,
+         'height': 10
        })
        .attr("x", function(d) {
               return x(d.date)-5;
@@ -134,37 +134,43 @@ function drawGraph(statisticsName){
           .attr("x1", 0).attr("x2", 0) // vertical line so same value on each
           .attr("y1", 0).attr("y2", height); // top to bottom
 
+      var dragged = false;
+
       svg.append("rect")
           .attr("class", "overlay")
           .attr("width", width)
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
           // .on("mouseout", function() { focus.style("display", "none"); })
+	  .on("mousedown", function() { dragged = true; })
+	  .on("mouseup", function() { dragged = false; })
           .on("mousemove", mousemove);
 
       function mousemove() {
-        var x0 = x.invert(d3.mouse(this)[0]),
-            i = bisectDate(data, x0, 1),
-            d0 = data[i - 1],
-            d1 = data[i],
-            d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
+	  if (!dragged) return;
+
+          var x0 = x.invert(d3.mouse(this)[0]),
+              i = bisectDate(data, x0, 1),
+              d0 = data[i - 1],
+              d1 = data[i],
+              d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+          // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
-        focus.select("text").text(d.date);
-        // console.log($("#"+d.date));
-        for(var j=2; j<=countryNameArray.length-1; j++){
+          focus.select("text").text(d.date);
+          // console.log($("#"+d.date));
+          for(var j=2; j<=countryNameArray.length-1; j++){
               var color = Math.round(scale(d[countryNameArray[j]]));
               // console.log(color);
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
           }
-        if($('.'+Date.parse(d.date)) != null){
-          d3.selectAll("li").selectAll("p").style("color", "black");
-          $('.'+Date.parse(d.date)).css('color','red');
-            // console.log("OK");
-        }else{
-            d3.selectAll("li").selectAll("p").style("color", "black");
-            // console.log("NG");
-        }
+          if($('.'+Date.parse(d.date)) != null){
+              d3.selectAll("li").selectAll("p").style("color", "black");
+              $('.'+Date.parse(d.date)).css('color','red');
+              // console.log("OK");
+          }else{
+              d3.selectAll("li").selectAll("p").style("color", "black");
+              // console.log("NG");
+          }
       }
   });
 }
