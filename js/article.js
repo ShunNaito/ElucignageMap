@@ -1,8 +1,8 @@
-var parseDate = d3.time.format("%Y-%m-%d").parse;
+var parseDate = d3.time.format("%Y/%m/%d").parse;
 
 function displayText(){
 	// データを読み込む
-    d3.csv("data/EbolaArticle.csv", function(error, data) {
+    d3.csv("data/Aritcle.csv", function(error, data) {
         // データをフォーマット
         data.forEach(function(d) {
             d.date = parseDate(d.date);
@@ -22,10 +22,8 @@ function displayText(){
 	    	if($('.'+Date.parse(d.date)) != null){
           d3.selectAll("li").selectAll("p").style("color", "black");
           $('.'+Date.parse(d.date)).css('color','red');
-            // console.log("OK");
         }else{
             d3.selectAll("li").selectAll("p").style("color", "black");
-            // console.log("NG");
         }
 	    })
 	    .text(function(d) { return d.text; });
