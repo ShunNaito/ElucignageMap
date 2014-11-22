@@ -22,10 +22,8 @@ function displayText(){
 	    	if($('.'+Date.parse(d.date)) != null){
           d3.selectAll("li").selectAll("p").style("color", "black");
           $('.'+Date.parse(d.date)).css('color','red');
-            // console.log("OK");
         }else{
             d3.selectAll("li").selectAll("p").style("color", "black");
-            // console.log("NG");
         }
 	    })
 	    .text(function(d) { return d.text; });

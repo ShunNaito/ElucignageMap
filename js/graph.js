@@ -3,7 +3,6 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50};
 var width = window.innerWidth/10*6.8 - margin.left - margin.right;
 var height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
-// var parseDate = d3.time.format("%Y/%m/%d").parse,
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 var formatValue = d3.format(",.2f");
 var formatCurrency = function(d) { return "$" + formatValue(d); };
@@ -49,7 +48,6 @@ function drawGraph(statisticsName){
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
-      // d.close =+ d.close;
       for(var i=1; i<=countryNameArray.length-1; i++){
         d[countryNameArray[i]] =+ d[countryNameArray[i]];
       }
@@ -164,19 +162,15 @@ function drawGraph(statisticsName){
           // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
           focus.select("text").text(d.date);
-          // console.log($("#"+d.date));
           for(var j=2; j<=countryNameArray.length-1; j++){
               var color = Math.round(scale(d[countryNameArray[j]]));
-              // console.log(color);
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color+', 0, 0)');
           }
           if($('.'+Date.parse(d.date)) != null){
               d3.selectAll("li").selectAll("p").style("color", "black");
               $('.'+Date.parse(d.date)).css('color','red');
-              // console.log("OK");
           }else{
               d3.selectAll("li").selectAll("p").style("color", "black");
-              // console.log("NG");
           }
       }
   });
