@@ -1,4 +1,4 @@
-var parseDate = d3.time.format("%Y-%m-%d").parse;
+var parseDate = d3.time.format("%Y/%m/%d").parse;
 
 function displayText(){
 	// データを読み込む
