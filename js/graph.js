@@ -23,11 +23,6 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-// 線の定義
-var line = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); });
-
 // svgの定義
 var svg = d3.select("#graph").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -36,13 +31,13 @@ var svg = d3.select("#graph").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-drawGraph("Total");
+drawGraph("close");
 
 function drawGraph(statisticsName){
   $('#graph g').empty();
 
   // データを読み込む
-  d3.csv("data/"+statisticsName+".csv", function(error, data) {
+  d3.csv("data/Total.csv", function(error, data) {
     var countryNameArray = Object.keys(data[0]);
 
     // データをフォーマット
@@ -52,6 +47,11 @@ function drawGraph(statisticsName){
         d[countryNameArray[i]] =+ d[countryNameArray[i]];
       }
     });
+
+    // 線の定義
+    var line = d3.svg.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d[statisticsName]); });
 
     var dataMin;
     var dataMax;
@@ -77,7 +77,7 @@ function drawGraph(statisticsName){
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain(d3.extent(data, function(d) { return d.close; }));
+    y.domain(d3.extent(data, function(d) { return d[statisticsName]; }));
 
     // x軸をsvgに表示
     svg.append("g")
@@ -121,7 +121,7 @@ function drawGraph(statisticsName){
               return x(d.date)-5;
        })
        .attr("y", function(d) {
-              return y(d.close)-5;
+              return y(d[statisticsName])-5;
        });
 
     var focus = svg.append("g")

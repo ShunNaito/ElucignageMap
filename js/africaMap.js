@@ -18,6 +18,6 @@ var zoom = new Datamap({
 
 $(function(){
      $(".datamaps-subunit.GIN").click(function(){
-     	drawGraph("Guinea");
+     	drawGraph("GIN");
     });
 });
