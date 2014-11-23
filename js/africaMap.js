@@ -17,7 +17,14 @@ var zoom = new Datamap({
 });
 
 $(function(){
-     $(".datamaps-subunit.GIN").click(function(){
-     	drawGraph("GIN");
-    });
+	// データを読み込む
+  	d3.csv("data/Total.csv", function(error, data) {
+  		var countryNameArray = Object.keys(data[0]);
+    	for(var j=2; j<=countryNameArray.length-1; j++){
+    		$('.datamaps-subunit'+'.'+countryNameArray[j]).click(function(){
+		     	var eventClass = event.target.className;
+		     	drawGraph(eventClass.animVal.replace( /datamaps-subunit /, '' ));
+		     });
+          }
+  	});
 });
