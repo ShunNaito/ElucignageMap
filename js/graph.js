@@ -77,7 +77,7 @@ function drawGraph(statisticsName){
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain(d3.extent(data, function(d) { return d.close; }));
+    y.domain(d3.extent(data, function(d) { return d[statisticsName]; }));
 
     // x軸をsvgに表示
     svg.append("g")
@@ -121,7 +121,7 @@ function drawGraph(statisticsName){
               return x(d.date)-5;
        })
        .attr("y", function(d) {
-              return y(d.close)-5;
+              return y(d[statisticsName])-5;
        });
 
     var focus = svg.append("g")
