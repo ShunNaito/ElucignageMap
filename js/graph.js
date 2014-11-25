@@ -163,9 +163,13 @@ function drawGraph(statisticsName){
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
           focus.select("text").text(d.date);
           for(var j=2; j<=countryNameArray.length-1; j++){
+            if(d[countryNameArray[j]] != 0){
               var color = Math.round(scale(d[countryNameArray[j]]));
               var color2 = 255 - Math.round(scale(d[countryNameArray[j]]));
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color2+', 0, '+color+')');
+            }else{
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(171, 221, 164)');
+            }
           }
           if($('.'+Date.parse(d.date)) != null){
               d3.selectAll("li").selectAll("p").style("color", "black");
