@@ -1,6 +1,5 @@
-var colors = d3.scale.category10();
 var zoom = new Datamap({
-	element: document.getElementById("zoom_map"),
+	element: document.getElementById("africa"),
 	scope: 'world',
 	// Zoom in on Africa
 	setProjection: function(element) {
