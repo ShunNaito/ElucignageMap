@@ -34,6 +34,16 @@ var svg = d3.select("#graph").append("svg")
 drawGraph("close");
 
 function drawGraph(statisticsName){
+  //グラフタイトル追加
+  d3.select("#graph").select("svg").append('text')
+      .attr({
+          x:width/2-40, //width/2-font-size
+          y:25, //font-size+5
+          fill: "black",
+          "font-size":20 //ここを変数にする
+      })
+      .text("エボラ感染者数");
+
   $('#graph g').empty();
 
   // データを読み込む
