@@ -48,7 +48,14 @@ function drawGraph(statisticsName){
   $('#graph g').empty();
 
   // データを読み込む
-  d3.csv("data/Total.csv", function(error, data) {
+  d3.csv("data/Total.csv")
+  .row(function(d){   // 行単位で読み込んで処理
+    // 1行目が日本語なので安全のためラベル名など割り当て直す
+    //GIN,LBR,SLE,NGA,SEN,USA
+    // 将来的には国の省略語と名前（英語や日本語）が全て対応づくイメージ
+    return {date : d.date, close : d["close"], GIN : d["ギニア"], LBR : d["リベリア"], SLE : d["シエラレオネ"], NGA : d["ナイジェリア"], SEN : d["セネガル"], USA : d["アメリカ"] }
+  })
+  .get(function(error, data) {
     var countryNameArray = Object.keys(data[0]);
 
     // データをフォーマット
