@@ -1,5 +1,5 @@
 // グラフの表示領域
-var margin = {top: 20, right: 20, bottom: 30, left: 50};
+var margin = {top: 50, right: 20, bottom: 30, left: 50};
 var width = window.innerWidth/10*6.8 - margin.left - margin.right;
 var height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
