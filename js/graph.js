@@ -87,7 +87,7 @@ function drawGraph(statisticsName){
 
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
-    x.domain(d3.extent(data, function(d) { return d.date; }));
+    x.domain(d3.extent(data, function(d) { return d.date; })).clamp(true);
     y.domain(d3.extent(data, function(d) { return d[statisticsName]; }));
 
     // x軸をsvgに表示
