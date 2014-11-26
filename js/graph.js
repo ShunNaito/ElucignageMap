@@ -1,5 +1,5 @@
 // グラフの表示領域
-var margin = {top: 20, right: 20, bottom: 30, left: 50};
+var margin = {top: 50, right: 20, bottom: 30, left: 50};
 var width = window.innerWidth/10*6.8 - margin.left - margin.right;
 var height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
@@ -34,6 +34,17 @@ var svg = d3.select("#graph").append("svg")
 drawGraph("close");
 
 function drawGraph(statisticsName){
+  $('#graph svg text').empty();
+  //グラフタイトル追加
+  d3.select("#graph").select("svg").append('text')
+      .attr({
+          x:width/2-40, //width/2-font-size
+          y:25, //font-size+5
+          fill: "black",
+          "font-size":20 //ここを変数にする
+      })
+      .text(statisticsName+"エボラ感染者数");
+
   $('#graph g').empty();
 
   // データを読み込む
