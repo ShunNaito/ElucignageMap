@@ -43,7 +43,10 @@ function drawGraph(statisticsName){
           fill: "black",
           "font-size":20 //ここを変数にする
       })
-      .text(statisticsName+"エボラ感染者数");
+      .text(function(){
+        var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ'};
+        return "エボラ感染者数―"+counrty[statisticsName];
+      });
 
   $('#graph g').empty();
 
