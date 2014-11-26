@@ -43,7 +43,7 @@ function drawGraph(statisticsName){
           fill: "black",
           "font-size":20 //ここを変数にする
       })
-      .text("エボラ感染者数");
+      .text(statisticsName+"エボラ感染者数");
 
   $('#graph g').empty();
 
