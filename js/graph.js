@@ -150,7 +150,7 @@ function drawGraph(statisticsName){
           .attr("x1", 0).attr("x2", 0) // vertical line so same value on each
           .attr("y1", 0).attr("y2", height); // top to bottom
 
-      
+
       var dragListener = d3.behavior.drag()
 	      .on("dragstart", function() { console.log("dragstart"); })
 	      .on("drag", dragmove)
