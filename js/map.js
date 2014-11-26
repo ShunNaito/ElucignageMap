@@ -13,19 +13,16 @@ function createDatamap(id, type) {
 	return setProjection;
     };
 
-    var scope;
     var setProjection;
     if (type == "africa") {
-	scope = "world";
 	setProjection = buildSetProjection([30, 3], [4.4, 0], 240);
     } else if (type == "usa") {
-	scope = "usa";
 	setProjection = buildSetProjection([-115, 35], [4.4, 0], 230);
     }
 
     var map = new Datamap({
 	element: document.getElementById(id),
-	scope: scope,
+	scope: "world",
 	setProjection: setProjection
     });
     return map;
