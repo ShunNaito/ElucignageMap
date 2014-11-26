@@ -34,6 +34,7 @@ var svg = d3.select("#graph").append("svg")
 drawGraph("close");
 
 function drawGraph(statisticsName){
+  $('#graph svg text').empty();
   //グラフタイトル追加
   d3.select("#graph").select("svg").append('text')
       .attr({
