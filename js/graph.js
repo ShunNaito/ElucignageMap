@@ -87,7 +87,7 @@ function drawGraph(statisticsName){
 
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
-    x.domain(d3.extent(data, function(d) { return d.date; })).clamp(true);
+    x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain(d3.extent(data, function(d) { return d[statisticsName]; }));
 
     // x軸をsvgに表示
@@ -150,24 +150,29 @@ function drawGraph(statisticsName){
           .attr("x1", 0).attr("x2", 0) // vertical line so same value on each
           .attr("y1", 0).attr("y2", height); // top to bottom
 
+      var dragged = false;
 
-      var dragListener = d3.behavior.drag()
-	      .on("dragstart", function() { console.log("dragstart"); })
-	      .on("drag", dragmove)
-	      .on("dragend", function() { console.log("dragend"); });
+      svg.append("rect")
+          .attr("class", "overlay")
+          .attr("width", width)
+          .attr("height", height)
+          .on("mouseover", function() { focus.style("display", null); })
+          // .on("mouseout", function() { focus.style("display", "none"); })
+      	  .on("mousedown", function() { dragged = true; })
+      	  .on("mouseup", function() { dragged = false; })
+          .on("mousemove", mousemove);
 
-      function dragmove() {
-          var x0 = x.invert(d3.event.x),
+      function mousemove() {
+        if (!dragged) return;
+
+          var x0 = x.invert(d3.mouse(this)[0]),
               i = bisectDate(data, x0, 1),
               d0 = data[i - 1],
               d1 = data[i],
               d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-
-	  // Translate focus line by mouse coordinates
+          // focus.attr("transform", "translate(" + x(d.date) + "," + y(d.close) + ")");
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
           focus.select("text").text(d.date);
-
-	  // Change highlited map region
           for(var j=2; j<=countryNameArray.length-1; j++){
             if(d[countryNameArray[j]] != 0){
               var color = Math.round(scale(d[countryNameArray[j]]));
@@ -177,8 +182,6 @@ function drawGraph(statisticsName){
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(171, 221, 164)');
             }
           }
-
-	  // Change highlited articles
           if($('.'+Date.parse(d.date)) != null){
               d3.selectAll("li").selectAll("p").style("color", "black");
               $('.'+Date.parse(d.date)).css('color','red');
@@ -186,12 +189,5 @@ function drawGraph(statisticsName){
               d3.selectAll("li").selectAll("p").style("color", "black");
           }
       }
-
-      svg.append("rect")
-          .attr("class", "overlay")
-          .attr("width", width)
-          .attr("height", height)
-          .on("mouseover", function() { focus.style("display", null); })
-	  .call(dragListener);
   });
 }
