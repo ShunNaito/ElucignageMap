@@ -15,7 +15,7 @@ function createDatamap(id, type) {
 
     var setProjection;
     if (type == "africa") {
-	setProjection = buildSetProjection([30, 3], [4.4, 0], 240);
+	setProjection = buildSetProjection([30, 3], [4.4, 0], 280);
     } else if (type == "usa") {
 	setProjection = buildSetProjection([-115, 35], [4.4, 0], 230);
     }
@@ -32,14 +32,21 @@ var afcicaMap = createDatamap("africa", "africa");
 var usaMap = createDatamap("usa", "usa");
 
 $(function(){
-    // データを読み込む
-    d3.csv("data/Total.csv", function(error, data) {
-  	var countryNameArray = Object.keys(data[0]);
-    	for(var j=2; j<=countryNameArray.length-1; j++){
-    	    $('.datamaps-subunit'+'.'+countryNameArray[j]).click(function(){
-		var eventClass = event.target.className;
-		drawGraph(eventClass.animVal.replace( /datamaps-subunit /, '' ));
-	    });
-        }
-    });
+	// データを読み込む
+	d3.csv("data/Total.csv")
+	.row(function(d){   // 行単位で読み込んで処理
+		// 1行目が日本語なので安全のためラベル名など割り当て直す
+		//GIN,LBR,SLE,NGA,SEN,USA
+		// 将来的には国の省略語と名前（英語や日本語）が全て対応づくイメージ
+		return {date : d.date, close : d["close"],GIN : d["ギニア"], LBR : d["リベリア"], SLE : d["シエラレオネ"], NGA : d["ナイジェリア"], SEN : d["セネガル"], USA : d["アメリカ"] }
+	})
+	.get(function(error, data) {
+		var countryNameArray = Object.keys(data[0]);
+		for(var j=2; j<=countryNameArray.length-1; j++){
+			$('.datamaps-subunit'+'.'+countryNameArray[j]).click(function(){
+				var eventClass = event.target.className;
+				drawGraph(eventClass.animVal.replace( /datamaps-subunit /, '' ));
+			});
+		}
+	});
 });
