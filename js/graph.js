@@ -44,7 +44,7 @@ function drawGraph(statisticsName){
           "font-size":20 //ここを変数にする
       })
       .text(function(){
-        var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ'};
+        var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ', 'MLI':"マリ", 'ESP':"スペイン"};
         return "エボラ感染者数―"+counrty[statisticsName];
       });
 
@@ -56,7 +56,7 @@ function drawGraph(statisticsName){
     // 1行目が日本語なので安全のためラベル名など割り当て直す
     //GIN,LBR,SLE,NGA,SEN,USA
     // 将来的には国の省略語と名前（英語や日本語）が全て対応づくイメージ
-    return {date : d.date, close : d["close"], GIN : d["ギニア"], LBR : d["リベリア"], SLE : d["シエラレオネ"], NGA : d["ナイジェリア"], SEN : d["セネガル"], USA : d["アメリカ"] }
+    return {date : d.date, close : d["close"], GIN : d["ギニア"], LBR : d["リベリア"], SLE : d["シエラレオネ"], NGA : d["ナイジェリア"], SEN : d["セネガル"], USA : d["アメリカ"], MLI : d["マリ"], ESP : d["スペイン"] }
   })
   .get(function(error, data) {
     var countryNameArray = Object.keys(data[0]);
