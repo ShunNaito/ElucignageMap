@@ -1,11 +1,11 @@
-// グラフの表示領域
+// グラフの表示領域を設定
 var margin = {top: 50, right: 20, bottom: 30, left: 50};
 var width = window.innerWidth/10*6.8 - margin.left - margin.right;
 var height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
+//　ドラッグのところで使われている
+//　いまいちわかっていない
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-var formatValue = d3.format(",.2f");
-var formatCurrency = function(d) { return "$" + formatValue(d); };
 
 // スケールと出力レンジの定義
 var x = d3.time.scale()
@@ -30,9 +30,10 @@ var svg = d3.select("#graph").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
+//　デフォルトで累計患者数を表示
 drawGraph("close");
 
+//　グラフを描画する関数
 function drawGraph(statisticsName){
   $('#graph svg text').empty();
   //グラフタイトル追加
@@ -89,6 +90,7 @@ function drawGraph(statisticsName){
         }
     }
 
+    //　時系列順にソート
     data.sort(function(a, b) {
       return a.date - b.date;
     });
