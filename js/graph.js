@@ -38,16 +38,16 @@ function drawGraph(statisticsName){
   $('#graph svg text').empty();
   //グラフタイトル追加
   d3.select("#graph").select("svg").append('text')
-      .attr({
-          x:width/2-40, //width/2-font-size
-          y:25, //font-size+5
-          fill: "black",
-          "font-size":20 //ここを変数にする
-      })
-      .text(function(){
-        var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ', 'MLI':"マリ", 'ESP':"スペイン"};
-        return "エボラ感染者数―"+counrty[statisticsName];
-      });
+  .attr({
+    x:width/2-40, //width/2-font-size
+    y:25, //font-size+5
+    fill: "black",
+    "font-size":20 //ここを変数にする
+  })
+  .text(function(){
+    var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ', 'MLI':"マリ", 'ESP':"スペイン"};
+    return "エボラ感染者数―"+counrty[statisticsName];
+  });
 
   $('#graph g').empty();
 
@@ -61,7 +61,6 @@ function drawGraph(statisticsName){
   })
   .get(function(error, data) {
     var countryNameArray = Object.keys(data[0]);
-
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
@@ -72,22 +71,22 @@ function drawGraph(statisticsName){
 
     // 線の定義
     var line = d3.svg.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d[statisticsName]); });
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d[statisticsName]); });
 
-    var dataMin;
-    var dataMax;
+    var dataMin; //データセットの最小値
+    var dataMax; //データ・セットの最大値
     for(var i=0; i<=data.length-1; i++){
-        for(var j=2; j<=countryNameArray.length-1; j++){
-            if(i==0 && j==2){
-                dataMin = data[i][countryNameArray[j]];
-                dataMax = data[i][countryNameArray[j]];
-            }else if(data[i][countryNameArray[j]] < dataMin){
-                dataMin = data[i][countryNameArray[j]];
-            }else if(data[i][countryNameArray[j]] > dataMax){
-                dataMax = data[i][countryNameArray[j]];
-            }
-        }
+      for(var j=2; j<=countryNameArray.length-1; j++){
+          if(i==0 && j==2){
+              dataMin = data[i][countryNameArray[j]];
+              dataMax = data[i][countryNameArray[j]];
+          }else if(data[i][countryNameArray[j]] < dataMin){
+              dataMin = data[i][countryNameArray[j]];
+          }else if(data[i][countryNameArray[j]] > dataMax){
+              dataMax = data[i][countryNameArray[j]];
+          }
+      }
     }
 
     //　時系列順にソート
@@ -175,11 +174,11 @@ function drawGraph(statisticsName){
               d1 = data[i],
               d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
-	  // Translate focus line by mouse coordinates
+          // Translate focus line by mouse coordinates
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
           focus.select("text").text(d.date);
 
-	  // Change highlited map region
+          // Change highlited map region
           for(var j=2; j<=countryNameArray.length-1; j++){
             if(d[countryNameArray[j]] != 0){
               var color = Math.round(scale(d[countryNameArray[j]]));
@@ -190,7 +189,7 @@ function drawGraph(statisticsName){
             }
           }
 
-	  // Change highlited articles
+          // Change highlited articles
           if($('.'+Date.parse(d.date)) != null){
               d3.selectAll("li").selectAll("p").style("color", "black");
               $('.'+Date.parse(d.date)).css('color','red');
@@ -204,6 +203,6 @@ function drawGraph(statisticsName){
           .attr("width", width)
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
-	  .call(dragListener);
+          .call(dragListener);
   });
 }
