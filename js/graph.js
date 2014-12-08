@@ -1,11 +1,11 @@
-// グラフの表示領域
+// グラフの表示領域を設定
 var margin = {top: 50, right: 20, bottom: 30, left: 50};
 var width = window.innerWidth/10*6.8 - margin.left - margin.right;
 var height = window.innerHeight/10*3 - margin.top - margin.bottom;
 
+//　ドラッグのところで使われている
+//　いまいちわかっていない
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-var formatValue = d3.format(",.2f");
-var formatCurrency = function(d) { return "$" + formatValue(d); };
 
 // スケールと出力レンジの定義
 var x = d3.time.scale()
@@ -30,23 +30,24 @@ var svg = d3.select("#graph").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
+//　デフォルトで累計患者数を表示
 drawGraph("close");
 
+//　グラフを描画する関数
 function drawGraph(statisticsName){
   $('#graph svg text').empty();
   //グラフタイトル追加
   d3.select("#graph").select("svg").append('text')
-      .attr({
-          x:width/2-40, //width/2-font-size
-          y:25, //font-size+5
-          fill: "black",
-          "font-size":20 //ここを変数にする
-      })
-      .text(function(){
-        var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ'};
-        return "エボラ感染者数―"+counrty[statisticsName];
-      });
+  .attr({
+    x:width/2-40, //width/2-font-size
+    y:25, //font-size+5
+    fill: "black",
+    "font-size":20 //ここを変数にする
+  })
+  .text(function(){
+    var counrty = {'close':'合計', 'GIN':'ギニア', 'LBR':'リベリア', 'SLE':'シエラレオネ' ,'NGA':'ナイジェリア' ,'SEN':'セネガル' ,'USA':'アメリカ', 'MLI':"マリ", 'ESP':"スペイン"};
+    return "エボラ感染者数―"+counrty[statisticsName];
+  });
 
   $('#graph g').empty();
 
@@ -56,11 +57,10 @@ function drawGraph(statisticsName){
     // 1行目が日本語なので安全のためラベル名など割り当て直す
     //GIN,LBR,SLE,NGA,SEN,USA
     // 将来的には国の省略語と名前（英語や日本語）が全て対応づくイメージ
-    return {date : d.date, close : d["close"], GIN : d["ギニア"], LBR : d["リベリア"], SLE : d["シエラレオネ"], NGA : d["ナイジェリア"], SEN : d["セネガル"], USA : d["アメリカ"] }
+    return {date : d.date, close : d["close"], GIN : d["ギニア"], LBR : d["リベリア"], SLE : d["シエラレオネ"], NGA : d["ナイジェリア"], SEN : d["セネガル"], USA : d["アメリカ"], MLI : d["マリ"], ESP : d["スペイン"] }
   })
   .get(function(error, data) {
     var countryNameArray = Object.keys(data[0]);
-
     // データをフォーマット
     data.forEach(function(d) {
       d.date = parseDate(d.date);
@@ -71,24 +71,25 @@ function drawGraph(statisticsName){
 
     // 線の定義
     var line = d3.svg.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d[statisticsName]); });
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d[statisticsName]); });
 
-    var dataMin;
-    var dataMax;
+    var dataMin; //データセットの最小値
+    var dataMax; //データ・セットの最大値
     for(var i=0; i<=data.length-1; i++){
-        for(var j=2; j<=countryNameArray.length-1; j++){
-            if(i==0 && j==2){
-                dataMin = data[i][countryNameArray[j]];
-                dataMax = data[i][countryNameArray[j]];
-            }else if(data[i][countryNameArray[j]] < dataMin){
-                dataMin = data[i][countryNameArray[j]];
-            }else if(data[i][countryNameArray[j]] > dataMax){
-                dataMax = data[i][countryNameArray[j]];
-            }
-        }
+      for(var j=2; j<=countryNameArray.length-1; j++){
+          if(i==0 && j==2){
+              dataMin = data[i][countryNameArray[j]];
+              dataMax = data[i][countryNameArray[j]];
+          }else if(data[i][countryNameArray[j]] < dataMin){
+              dataMin = data[i][countryNameArray[j]];
+          }else if(data[i][countryNameArray[j]] > dataMax){
+              dataMax = data[i][countryNameArray[j]];
+          }
+      }
     }
 
+    //　時系列順にソート
     data.sort(function(a, b) {
       return a.date - b.date;
     });
@@ -173,11 +174,11 @@ function drawGraph(statisticsName){
               d1 = data[i],
               d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
-	  // Translate focus line by mouse coordinates
+          // Translate focus line by mouse coordinates
           focus.attr("transform", "translate(" + x(d.date) + ",0)");
           focus.select("text").text(d.date);
 
-	  // Change highlited map region
+          // Change highlited map region
           for(var j=2; j<=countryNameArray.length-1; j++){
             if(d[countryNameArray[j]] != 0){
               var color = Math.round(scale(d[countryNameArray[j]]));
@@ -188,7 +189,7 @@ function drawGraph(statisticsName){
             }
           }
 
-	  // Change highlited articles
+          // Change highlited articles
           if($('.'+Date.parse(d.date)) != null){
               d3.selectAll("li").selectAll("p").style("color", "black");
               $('.'+Date.parse(d.date)).css('color','red');
@@ -202,6 +203,6 @@ function drawGraph(statisticsName){
           .attr("width", width)
           .attr("height", height)
           .on("mouseover", function() { focus.style("display", null); })
-	  .call(dragListener);
+          .call(dragListener);
   });
 }
