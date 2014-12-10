@@ -1,12 +1,17 @@
 // 日付データのパースを設定
 var parseDate = d3.time.format("%Y/%m/%d").parse;
 
+var articleDate = new Array();
+
 function displayText(){
 	// データを読み込む
 	d3.csv("data/article.csv", function(error, data) {
+		var i=0;
 		// データをフォーマット
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
+			articleDate[i] = d.date;
+			i++;
 		});
 		//　新聞記事の本文を表示する
 		d3.select("#articlePane").selectAll("li")
@@ -27,5 +32,8 @@ function displayText(){
 				}
 			})
 			.text(function(d) { return d.text; });
+
+			//　デフォルトで累計患者数を表示
+			drawGraph("close", articleDate);
 	});
 }
