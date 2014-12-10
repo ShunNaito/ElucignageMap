@@ -3,7 +3,7 @@ var parseDate = d3.time.format("%Y/%m/%d").parse;
 
 function displayText(){
 	// データを読み込む
-	d3.csv("data/Aritcle.csv", function(error, data) {
+	d3.csv("data/article.csv", function(error, data) {
 		// データをフォーマット
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
