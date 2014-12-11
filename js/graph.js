@@ -131,20 +131,16 @@ function drawGraph(statisticsName, articleDate){
        .attr("class", "arrow")
        .attr({
         'xlink:href': function (d) {
-          for(var i=0; i<=articleDate.length-1; i++){
-            if(Date.parse(d.date) == Date.parse(articleDate[i])){
               return 'images/other.png';
-            }
-          }
          },
          'width' : 10,
          'height': 10
        })
+       .data(articleDate)
        .attr("x", function(d) {
-        for(var i=0; i<=articleDate.length-1; i++){
-          if(Date.parse(d.date) == Date.parse(articleDate[i])) return x(d.date)-5;
-        }
+          return x(d.date)-5;
        })
+       .data(data)
        .attr("y", function(d) {
           return y(d[statisticsName])-5;
        });
