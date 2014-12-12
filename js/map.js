@@ -33,4 +33,11 @@ map.createDatamap = function(id, type) {
 map.create = function(stats) {
     var afcicaMap = map.createDatamap("africa", "africa");
     var usaMap = map.createDatamap("usa", "usa");
+
+    $(".datamaps-subunit").click(function() {
+	var classNames = $(this).attr("class");
+	var country = classNames.split(' ')[1];
+
+	console.log(country);
+    });
 };
