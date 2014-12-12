@@ -93,6 +93,8 @@ function drawGraph(statisticsName, articleDate){
 
     var scale = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
 
+    var scale1 = d3.scale.linear().domain([dataMin, dataMax]).range([0, 255]);
+
     // データを入力ドメインとして設定
     // 同時にextentで目盛りの単位が適切になるようにする
     x.domain(d3.extent(data, function(d) { return d.date; })).clamp(true);
@@ -180,7 +182,8 @@ function drawGraph(statisticsName, articleDate){
             if(d[countryNameArray[j]] != 0){
               var color = Math.round(scale(d[countryNameArray[j]]));
               var color2 = 255 - Math.round(scale(d[countryNameArray[j]]));
-              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(255,'+color2+', 0)');
+              var color3 = 128 - Math.round(scale1(d[countryNameArray[j]]));
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(255, '+color3+', '+color2+')');
             }else{
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(171, 221, 164)');
             }
