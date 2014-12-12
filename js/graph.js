@@ -125,7 +125,7 @@ function drawGraph(statisticsName, articleDate){
        .attr("class", "icon")
        .attr("clip-path", "url(#clip)")
        .selectAll('.icon')
-       .data(data)
+       .data(articleDate)
        .enter()
        .append('image')
        .attr("class", "arrow")
@@ -136,13 +136,11 @@ function drawGraph(statisticsName, articleDate){
          'width' : 10,
          'height': 10
        })
-       .data(articleDate)
        .attr("x", function(d) {
           return x(d.date)-5;
        })
-       .data(data)
        .attr("y", function(d) {
-          return y(d[statisticsName])-5;
+          return height;
        });
 
     var focus = svg.append("g")
