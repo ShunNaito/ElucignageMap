@@ -1,11 +1,10 @@
 loadArticles("data/article.csv", function(data) {
-    console.log(data);
-    // add articles in dom
+    articles.create(data);
 });
 
 loadStats("data/Total.csv", function(data) {
-    console.log(data);
-    // 
+    map.create(data);
+    // graph.create(data);
 });
 
 function loadArticles(filename, callback) {
