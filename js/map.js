@@ -45,7 +45,14 @@ $(function(){
 		for(var j=2; j<=countryNameArray.length-1; j++){
 			$('.datamaps-subunit'+'.'+countryNameArray[j]).click(function(){
 				var eventClass = event.target.className;
-				drawGraph(eventClass.animVal.replace( /datamaps-subunit /, '' ));
+				var tmp =eventClass.animVal.replace( /datamaps-subunit /, '' );
+				d3.csv("data/article.csv", function(error, data) {
+					// データをフォーマット
+					data.forEach(function(d) {
+						d.date = parseDate(d.date);
+					});
+				drawGraph(tmp, data);
+			});
 			});
 		}
 	});
