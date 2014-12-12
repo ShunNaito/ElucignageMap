@@ -181,8 +181,10 @@ function drawGraph(statisticsName, articleDate){
               var color = Math.round(scale(d[countryNameArray[j]]));
               var color2 = 255 - Math.round(scale(d[countryNameArray[j]]));
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb('+color2+', 0, '+color+')');
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('stroke','rgb(0, 0, 255)');
             }else{
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(171, 221, 164)');
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('stroke','rgb(253, 253, 253)');
             }
           }
 
