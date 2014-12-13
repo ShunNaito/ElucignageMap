@@ -26,6 +26,7 @@ function createDatamap(id, type) {
 	setProjection: setProjection
     });
     return map;
+<<<<<<< HEAD
 }
 
 var afcicaMap = createDatamap("africa", "africa");
@@ -50,3 +51,11 @@ $(function(){
 		}
 	});
 });
+=======
+};
+
+map.create = function(stats) {
+    var afcicaMap = map.createDatamap("africa", "africa");
+    var usaMap = map.createDatamap("usa", "usa");
+};
+>>>>>>> parent of 9bc59e2... Add click event to data maps
