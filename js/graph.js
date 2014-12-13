@@ -30,8 +30,11 @@ var svg = d3.select("#graph").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+//　デフォルトで累計患者数を表示
+drawGraph("close");
+
 //　グラフを描画する関数
-function drawGraph(statisticsName, articleDate){
+function drawGraph(statisticsName){
   $('#graph svg text').empty();
   //グラフタイトル追加
   d3.select("#graph").select("svg").append('text')
@@ -125,7 +128,7 @@ function drawGraph(statisticsName, articleDate){
        .attr("class", "icon")
        .attr("clip-path", "url(#clip)")
        .selectAll('.icon')
-       .data(articleDate)
+       .data(data)
        .enter()
        .append('image')
        .attr("class", "arrow")
@@ -137,10 +140,10 @@ function drawGraph(statisticsName, articleDate){
          'height': 10
        })
        .attr("x", function(d) {
-          return x(d.date)-5;
+              return x(d.date)-5;
        })
        .attr("y", function(d) {
-          return height;
+              return y(d[statisticsName])-5;
        });
 
     var focus = svg.append("g")
