@@ -14,7 +14,6 @@ function displayText(){
 		// データをフォーマット
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
-			console.log(d.hyodai);
 		});
 		//　新聞記事の本文を表示する
 		d3.select("#articlePane").selectAll("li")
