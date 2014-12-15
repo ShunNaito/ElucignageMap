@@ -182,8 +182,7 @@ function drawGraph(statisticsName, articleDate){
             if(d[countryNameArray[j]] != 0){
               var color = Math.round(scale(d[countryNameArray[j]]));
               var color2 = 255 - Math.round(scale(d[countryNameArray[j]]));
-              var color3 = 128 - Math.round(scale1(d[countryNameArray[j]]));
-              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(255, '+color3+', '+color2+')');
+              $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(255, '+color2+', 0)');
             }else{
               $('.datamaps-subunit'+'.'+countryNameArray[j]).css('fill','rgb(171, 221, 164)');
             }
