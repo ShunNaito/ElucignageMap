@@ -15,9 +15,9 @@ function createDatamap(id, type) {
 
     var setProjection;
     if (type == "africa") {
-	setProjection = buildSetProjection([20, 5], [4.4, 0], 230);
+		setProjection = buildSetProjection([20, 5], [4.4, 0], 230);
     } else if (type == "usa") {
-	setProjection = buildSetProjection([-115, 35], [4.4, 0], 230);
+		setProjection = buildSetProjection([-115, 35], [4.4, 0], 230);
     }
 
     var map = new Datamap({
@@ -52,7 +52,7 @@ $(function(){
 						d.date = parseDate(d.date);
 					});
 				drawGraph(tmp, data);
-			});
+				});
 			});
 		}
 	});
