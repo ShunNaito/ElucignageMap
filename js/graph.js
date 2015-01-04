@@ -129,21 +129,21 @@ function drawGraph(statisticsName, articleDate){
        .selectAll('.icon')
        .data(articleDate)
        .enter()
-       .append('image')
-       .attr("class", "arrow")
-       .attr({
-        'xlink:href': function (d) {
-              return 'images/other.png';
-         },
-         'width' : 10,
-         'height': 10
+       .append('line')
+       .attr("x1", function(d) {
+          return x(d.date);
        })
-       .attr("x", function(d) {
-          return x(d.date)-5;
-       })
-       .attr("y", function(d) {
+       .attr("y1", function(d) {
           return height;
-       });
+       })
+      .attr("x2", function(d) {
+          return x(d.date);
+       })
+       .attr("y2", function(d) {
+          return 0;
+       })
+      .attr("stroke", 'gray')
+      .attr("opacity", '0.9');
 
     var focus = svg.append("g")
         .attr("class", "focus")
